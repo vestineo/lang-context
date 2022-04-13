@@ -1,0 +1,24 @@
+@top Tex { items* }
+
+@skip { space | LineComment }
+
+items {
+  Commands |
+  Args
+}
+
+@tokens {
+  Commands { $[\u005C] $[a-zA-Z0-9,]+ }
+
+  LineComment { "%" ![\n]* }
+  
+  Args{ '[' $[:,\-a-zA-Z0-9=.\u005C]+ missingEnd }
+  missingEnd { ']' | '\n'}
+  space { $[ \t\n\r]+ }
+
+  "(" ")"
+  "{" "}"
+  "[" "]"
+}
+
+@detectDelim
